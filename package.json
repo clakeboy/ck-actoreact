@@ -5,6 +5,7 @@
   "main": "app/main.js",
   "scripts": {
     "start-app": "electron app/main.js",
+    "start": "gulp",
     "build": "electron-packager .",
     "dist": "electron-builder --win --x64"
   },
@@ -14,7 +15,7 @@
     "directories": {
       "output": "build"
     },
-    "files":[
+    "files": [
       "app/**/*"
     ],
     "dmg": {
@@ -33,17 +34,11 @@
       ]
     },
     "mac": {
-      "category": "your.app.category.type",
+      "category": "ck.app.actoreact",
       "icon": "static/icons/app.icns",
       "target": [
         "zip",
         "dmg"
-      ],
-      "publish": [
-        {
-          "provider":"generic",
-          "url":"http://www.baidu.com/updates/latest/mac/"
-        }
       ]
     },
     "win": {
@@ -51,20 +46,14 @@
       "target": [
         "nsis",
         "zip"
-      ],
-      "publish": [
-        {
-          "provider":"generic",
-          "url":"http://www.baidu.com/updates/latest/win/"
-        }
       ]
     },
     "linux": {
       "icon": "static/icons"
     },
-    "nsis":{
-      "oneClick":true,
-      "artifactName":"${productName}-setup-${version}.${ext}"
+    "nsis": {
+      "oneClick": true,
+      "artifactName": "${productName}-setup-${version}.${ext}"
     }
   },
   "repository": "https://github.com/clakeboy/ck-actoreact.git",
@@ -74,8 +63,49 @@
   "author": "Clake",
   "license": "",
   "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/plugin-proposal-class-properties": "^7.3.4",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/plugin-transform-runtime": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "@babel/runtime": "^7.3.4",
+    "babel-loader": "^8.0.5",
+    "browser-sync": "^2.24.5",
+    "connect-history-api-fallback": "^1.5.0",
+    "css-loader": "^0.28.7",
+    "del": "^3.0.0",
     "electron": "^5.0.0-beta.4",
     "electron-builder": "^20.38.5",
-    "electron-packager": "^13.1.0"
+    "electron-packager": "^13.1.0",
+    "file-loader": "^1.1.5",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^8.0.0",
+    "gulp-header": "^1.8.9",
+    "gulp-load-plugins": "^1.5.0",
+    "gulp-util": "^3.0.8",
+    "less": "^3.0.4",
+    "less-loader": "^4.1.0",
+    "mini-css-extract-plugin": "^0.4.0",
+    "path": "^0.12.7",
+    "process": "^0.11.10",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.11.1",
+    "webpack-dev-middleware": "^3.1.0",
+    "webpack-hot-middleware": "^2.21.0",
+    "webpack-merge": "^4.1.1"
+  },
+  "dependencies": {
+    "classnames": "^2.2.6",
+    "es6-promise": "^4.2.4",
+    "whatwg-fetch": "^3.0.0",
+    "@clake/react-bootstrap4": "^0.7.11",
+    "@clake/react-bootstrap4-window": "^0.1.7"
   }
 }
