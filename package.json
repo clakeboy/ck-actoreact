@@ -4,7 +4,7 @@
   "description": "Access convert to react application",
   "main": "app/main.js",
   "scripts": {
-    "start-app": "electron app/main.js",
+    "start-app": "electron app/main.js debug",
     "start": "gulp",
     "build": "electron-packager .",
     "dist": "electron-builder --win --x64"
@@ -105,7 +105,7 @@
     "classnames": "^2.2.6",
     "es6-promise": "^4.2.4",
     "whatwg-fetch": "^3.0.0",
-    "@clake/react-bootstrap4": "^0.7.11",
+    "@clake/react-bootstrap4": "^0.7.12",
     "@clake/react-bootstrap4-window": "^0.1.7"
   }
 }

@@ -1,18 +1,31 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron');
+const {app, BrowserWindow, ipcMain} = require('electron');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
 function createWindow() {
+    const path = require('path');
     // Create the browser window.
     mainWindow = new BrowserWindow({
-        width: 800, height: 600
+        width: 800, height: 600,
+        title:'Access to React-Bootstrap',
+        center:true,
+        resizable:false,
+        fullscreen:false,
+        webPreferences:{
+            nodeIntegration:false,
+            preload:path.join(__dirname, '/ui/preload.js')
+        }
     });
-    const path = require('path');
+
     // and load the index.html of the app.
-    mainWindow.loadFile(path.join(__dirname, 'index.html'));
+    if (process.argv[2] === 'debug') {
+        mainWindow.loadURL('http://127.0.0.1:3000');
+    } else {
+        mainWindow.loadFile(path.join(__dirname, 'ui/index.html'));
+    }
 
     // Open the DevTools.
     mainWindow.webContents.openDevTools();
@@ -24,8 +37,12 @@ function createWindow() {
         // when you should delete the corresponding element.
         mainWindow = null
     });
-    mainWindow.setMenu(null)
+    mainWindow.setMenu(null);
 }
+
+ipcMain.on('getMainWindow',(evt,arg)=>{
+    evt.returnValue = mainWindow;
+});
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

@@ -62,9 +62,6 @@ export default class App extends React.Component {
     }
 
     render() {
-        if (!this.state.login) {
-            return <Login setLogin={this.setLogin}/>
-        }
         let path = this.explainUrl(this.props.location.pathname);
         return <LoaderComponent loadPath={path} query={GetQuery(this.props.location.search)} import={GetComponent} setLogin={this.setLogin} setTitle={this.setTitle} user={this.user} {...this.props}/>
     }

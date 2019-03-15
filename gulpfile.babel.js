@@ -44,7 +44,7 @@ gulp.task('server', () => {
     bs.init({
         logPrefix: 'AMT',
         server: {
-            baseDir: ['app'],
+            baseDir: ['app/ui'],
             middleware: [
                 historyApiFallback(),
                 webpackDevMiddleware(bundler, {
@@ -63,15 +63,14 @@ gulp.task('server', () => {
 });
 
 gulp.task('clean', (callback) => {
-    del([
-        'dist/*',
-        '!dist/vendor',
-        '!dist/index.html',
-        '!dist/manage.html',
-        '!dist/static',
-        '!dist/favicon.ico'
-    ]);
-    callback();
+    return del([
+        'app/ui/*',
+        '!app/ui/vendor',
+        '!app/ui/index.html',
+        '!app/ui/manage.html',
+        '!app/ui/static',
+        '!app/ui/favicon.ico'
+    ],callback);
 });
 
 gulp.task('build:pack', (callback)=>{

@@ -5,7 +5,7 @@ export default {
     //页面入口文件配置
     mode: 'production',
     output: {
-        path: `${__dirname}/app`,
+        path: `${__dirname}/app/ui`,
         filename: '[name].js',
         chunkFilename:`./view/[name].[chunkhash:8].js`
     },
