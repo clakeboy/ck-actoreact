@@ -18,7 +18,8 @@ import ReactBootstrap4,{
     Icon,
     Card,
     LoaderComponent,
-    Menu
+    Menu,
+    CKModal
 } from '@clake/react-bootstrap4';
 import Storage from "../common/Storage";
 
@@ -28,7 +29,8 @@ class Main extends React.Component {
         this.state = {
             mainAccessFile:'',
             wDbAccessFile:'',
-            exportDir:''
+            exportDir:'',
+            windowList:null
         };
     }
 
@@ -45,67 +47,88 @@ class Main extends React.Component {
         //     e.preventDefault();
         //     menu.popup({window: remote.getCurrentWindow()})
         // }, false)
-        console.log(window.winProcess);
     }
 
     render() {
         return (
             <div className='p-3 h-100'>
                 <div className="d-flex flex-column h-100">
-                    <div className='mb-2 pl-1'>Access file</div>
-                    <div className="input-group input-group-sm">
-                        <input type="text" className="form-control" value={this.state.mainAccessFile} placeholder='Choose convert access file'/>
-                        <div className="input-group-append">
-                            <button className="btn btn-primary" onClick={()=>{
-                                window.remote.openFile((file)=>{
-                                    if (file) {
-                                        this.setState({
-                                            mainAccessFile:file[0]
-                                        });
-                                    }
-                                });
-                            }}>Choose</button>
+                    <div>
+                        <div className='pl-1'>Access file</div>
+                        <div className="input-group input-group-sm">
+                            <input type="text" className="form-control" value={this.state.mainAccessFile} placeholder='Choose convert access file'/>
+                            <div className="input-group-append">
+                                <button className="btn btn-primary" onClick={()=>{
+                                    window.remote.openFile((file)=>{
+                                        if (file) {
+                                            this.setState({
+                                                mainAccessFile:file[0]
+                                            },()=>{
+                                                this.modal.loading({
+                                                    header:false,
+                                                    content:'load window list'
+                                                });
+                                                window.remote.getWindowList(this.state.mainAccessFile,(data)=>{
+                                                    if (data instanceof Array) {
+                                                        this.setState({windowList:data});
+                                                    }
+                                                    this.modal.close();
+                                                });
+                                            });
+                                        }
+                                    });
+                                }}>Choose</button>
+                            </div>
+                        </div>
+                        <div className='pl-1'>WDatabase Access file</div>
+                        <div className="input-group input-group-sm">
+                            <input type="text" className="form-control" placeholder='Choose WDatabase Access file' value={this.state.wDbAccessFile}/>
+                            <div className="input-group-append">
+                                <button className="btn btn-primary" onClick={()=>{
+                                    window.remote.openFile((file)=>{
+                                        if (file) {
+                                            this.setState({
+                                                wDbAccessFile:file[0]
+                                            });
+                                        }
+                                    });
+                                }}>Choose</button>
+                            </div>
+                        </div>
+                        <div className='pl-1'>Export directory</div>
+                        <div className="input-group input-group-sm">
+                            <input type="text" className="form-control" value={this.state.exportDir} placeholder='Choose export directory'/>
+                            <div className="input-group-append">
+                                <button className="btn btn-primary" onClick={()=>{
+                                    window.remote.openDirectory((dir)=>{
+                                        console.log(dir);
+                                        if (dir) {
+                                            this.setState({
+                                                exportDir:dir[0]
+                                            });
+                                        }
+                                    });
+                                }}>Choose</button>
+                            </div>
                         </div>
                     </div>
-                    <div className='mb-2 mt-2 pl-1'>WDatabase Access file</div>
-                    <div className="input-group input-group-sm">
-                        <input type="text" className="form-control" placeholder='Choose WDatabase Access file' value={this.state.wDbAccessFile}/>
-                        <div className="input-group-append">
-                            <button className="btn btn-primary" onClick={()=>{
-                                window.remote.openFile((file)=>{
-                                    if (file) {
-                                        this.setState({
-                                            wDbAccessFile:file[0]
-                                        });
-                                    }
-                                });
-                            }}>Choose</button>
-                        </div>
+
+                    <div className='flex-grow-1'>
+                        <Tabs className='mt-3' sm>
+                            <TabsContent id='list' text='Export window list'>
+                                <div className='p-3 bg-white'>
+                                    <Table hover={true} select={true} sm fontSm headerTheme='light' height='300px' emptyText='not window data' data={this.state.windowList}>
+                                        <Table.Header text='Window Name' field='window_name' width='500px'/>
+                                    </Table>
+                                </div>
+                            </TabsContent>
+                            <TabsContent id='log' text='Logs'>
+
+                            </TabsContent>
+                        </Tabs>
                     </div>
-                    <div className='mb-2 mt-2 pl-1'>Export directory</div>
-                    <div className="input-group input-group-sm">
-                        <input type="text" className="form-control" value={this.state.exportDir} placeholder='Choose export directory'/>
-                        <div className="input-group-append">
-                            <button className="btn btn-primary" onClick={()=>{
-                                window.remote.openDirectory((dir)=>{
-                                    console.log(dir);
-                                    if (dir) {
-                                        this.setState({
-                                            exportDir:dir[0]
-                                        });
-                                    }
-                                });
-                            }}>Choose</button>
-                        </div>
-                    </div>
-                    <Card className='mt-2 flex-grow-1 h-100' divider>
-                        <div>Export window list</div>
-                        <hr/>
-                        <Table hover={true} select={true} sm fontSm headerTheme='light' emptyText='not window data'>
-                            <Table.Header text='Window Name' field='window_name'/>
-                        </Table>
-                    </Card>
                 </div>
+                <CKModal header={false} ref={c=>this.modal=c}/>
             </div>
         );
     }
