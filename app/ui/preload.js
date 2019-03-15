@@ -7,7 +7,10 @@ window.remote = {
     openFile : (cb)=>{
         // let win  = ipcRenderer.sendSync('getMainWindow','');
         console.log(dialog.showOpenDialog(remote.getCurrentWindow(),{
-            title:'choose file', properties: ['openFile']
+            title:'choose file', properties: ['openFile'],
+            filters:[
+                { name: 'Access', extensions: ['mdb', 'acdb'] }
+            ]
         },cb));
     },
     openDirectory: (cb)=>{

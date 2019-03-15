@@ -54,7 +54,7 @@ class Main extends React.Component {
             <div className='p-3 h-100'>
                 <div className="d-flex flex-column h-100">
                     <div>
-                        <div className='pl-1'>Access file</div>
+                        <div className='pl-1 text-primary'>Access file</div>
                         <div className="input-group input-group-sm">
                             <input type="text" className="form-control" value={this.state.mainAccessFile} placeholder='Choose convert access file'/>
                             <div className="input-group-append">
@@ -80,7 +80,7 @@ class Main extends React.Component {
                                 }}>Choose</button>
                             </div>
                         </div>
-                        <div className='pl-1'>WDatabase Access file</div>
+                        <div className='pl-1 text-primary'>WDatabase Access file</div>
                         <div className="input-group input-group-sm">
                             <input type="text" className="form-control" placeholder='Choose WDatabase Access file' value={this.state.wDbAccessFile}/>
                             <div className="input-group-append">
@@ -95,7 +95,7 @@ class Main extends React.Component {
                                 }}>Choose</button>
                             </div>
                         </div>
-                        <div className='pl-1'>Export directory</div>
+                        <div className='pl-1 text-primary'>Export directory</div>
                         <div className="input-group input-group-sm">
                             <input type="text" className="form-control" value={this.state.exportDir} placeholder='Choose export directory'/>
                             <div className="input-group-append">
