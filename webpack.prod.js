@@ -52,8 +52,6 @@ export default merge(cfg,{
         "react-dom": "ReactDOM",
         "zepto": "Zepto",
         "marked":"Marked",
-        "moment":"moment",
-        "@clake/react-bootstrap4":"ReactBootstrapV4",
-        "@clake/react-bootstrap4-window":"ReactBootstrapV4Window"
+        "moment":"moment"
     }
 });

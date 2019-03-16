@@ -4,6 +4,7 @@ const {app, BrowserWindow, ipcMain} = require('electron');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+let debug = process.argv[2] === 'debug';
 
 function createWindow() {
     const path = require('path');
@@ -16,19 +17,19 @@ function createWindow() {
         fullscreen:false,
         webPreferences:{
             nodeIntegration:false,
-            preload:path.join(__dirname, '/ui/preload.js')
+            preload:path.join(__dirname, './preload.js')
         }
     });
 
     // and load the index.html of the app.
-    if (process.argv[2] === 'debug') {
+    if (debug) {
         mainWindow.loadURL('http://127.0.0.1:3000');
     } else {
         mainWindow.loadFile(path.join(__dirname, 'ui/index.html'));
     }
 
     // Open the DevTools.
-    mainWindow.webContents.openDevTools();
+   debug && mainWindow.webContents.openDevTools();
 
     // Emitted when the window is closed.
     mainWindow.on('closed', function () {
