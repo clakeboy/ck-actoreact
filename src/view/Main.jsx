@@ -58,13 +58,51 @@ class Main extends React.Component {
         }
         this.setState({
             currentTab:'log',
-            output:[],
+            output:['Start converting '],
             running:true
         },()=>{
             window.remote.exportAccess(
                 this.state.mainAccessFile,
                 this.state.wDbAccessFile,
                 this.state.exportDir,
+                (msg,done)=>{
+                    if (done) {
+                        this.pushLog(<span className='text-success'>{msg}</span>);
+                        this.done();
+                    } else {
+                        this.pushLog(msg);
+                    }
+                }
+            )
+        });
+    };
+
+    exportSelection = ()=>{
+        if (!this.check()) {
+            return;
+        }
+        let filterList = [];
+        let rows = this.selectTable.getSelectRows();
+        if (rows.length <= 0) {
+            this.modal.alert({
+                header:false,
+                content:'Please select some window to convert'
+            });
+            return false;
+        }
+        rows.forEach((row)=>{
+            filterList.push(row.window_name);
+        });
+        this.setState({
+            currentTab:'log',
+            output:['Start converting '],
+            running:true
+        },()=>{
+            window.remote.exportSelected(
+                this.state.mainAccessFile,
+                this.state.wDbAccessFile,
+                this.state.exportDir,
+                filterList,
                 (msg,done)=>{
                     if (done) {
                         this.pushLog(<span className='text-success'>{msg}</span>);
@@ -208,10 +246,10 @@ class Main extends React.Component {
                             <TabsContent id='list' text='Export window list' disabled={this.state.running}>
                                 <div className='p-3 bg-white'>
                                     <div className='mb-1'>
-                                        <Button disabled={this.state.running} size='sm'>Convert selected</Button>
+                                        <Button disabled={this.state.running} size='sm' onClick={this.exportSelection}>Convert selected</Button>
                                         <Button disabled={this.state.running} className='float-right' size='sm' outline onClick={this.exportAll}>Convert all</Button>
                                     </div>
-                                    <Table hover={true} select={true} sm fontSm headerTheme='light' height='270px' emptyText='not window data' data={this.state.windowList}>
+                                    <Table ref={c=>this.selectTable=c} hover={true} select={true} sm fontSm headerTheme='light' height='270px' emptyText='not window data' data={this.state.windowList}>
                                         <Table.Header text='Window Name' field='window_name'/>
                                     </Table>
                                 </div>
