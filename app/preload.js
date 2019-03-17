@@ -5,6 +5,7 @@ const path = require('path');
 const os = require('os');
 const fs = require('fs');
 const accesscmd = path.join(__dirname,'accesscmd/AccessExport.exe');
+const convertcmd = path.join(__dirname,'accesscmd/Convert.exe');
 const tmpDir = path.join(os.tmpdir(),'actojs/');
 
 window.remote = {
@@ -47,6 +48,15 @@ window.remote = {
     exportSelected: (file,wfile,exportDir,filter,cb)=>{
         window.remote.clearTmpDir();
         let AccessExport = spawn(accesscmd,['-f',file,'-w',wfile,'-d',tmpDir,'--filter',filter.join(',')]);
+        AccessExport.stdout.on('data', (data) => {
+            cb(data.toString());
+        });
+        AccessExport.on('close',()=>{
+            cb('done',true);
+        });
+    },
+    convert: (exportDir,cb) => {
+        let AccessExport = spawn(convertcmd,['-f',file,'-w',wfile,'-d',tmpDir,'--filter',filter.join(',')]);
         AccessExport.stdout.on('data', (data) => {
             cb(data.toString());
         });
