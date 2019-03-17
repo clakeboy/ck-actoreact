@@ -58,7 +58,7 @@ class Main extends React.Component {
         }
         this.setState({
             currentTab:'log',
-            output:['Start converting '],
+            output:[<span className='text-danger'>Start converting</span>],
             running:true
         },()=>{
             window.remote.exportAccess(
@@ -95,7 +95,7 @@ class Main extends React.Component {
         });
         this.setState({
             currentTab:'log',
-            output:['Start converting '],
+            output:[<span className='text-danger'>Start converting</span>],
             running:true
         },()=>{
             window.remote.exportSelected(

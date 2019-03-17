@@ -2,7 +2,11 @@ const { ipcRenderer,remote } = require('electron');
 const { spawn } = require('child_process');
 const {dialog} = remote;
 const path = require('path');
+const os = require('os');
+const fs = require('fs');
 const accesscmd = path.join(__dirname,'accesscmd/AccessExport.exe');
+const tmpDir = path.join(os.tmpdir(),'actojs/');
+
 window.remote = {
     process : remote.process,
     openFile : (cb)=>{
@@ -31,7 +35,8 @@ window.remote = {
         });
     },
     exportAccess: (file,wfile,exportDir,cb)=>{
-        let AccessExport = spawn(accesscmd,['-f',file,'-w',wfile,'-d',exportDir]);
+        window.remote.clearTmpDir();
+        let AccessExport = spawn(accesscmd,['-f',file,'-w',wfile,'-d',tmpDir]);
         AccessExport.stdout.on('data', (data) => {
             cb(data.toString());
         });
@@ -40,12 +45,27 @@ window.remote = {
         });
     },
     exportSelected: (file,wfile,exportDir,filter,cb)=>{
-        let AccessExport = spawn(accesscmd,['-f',file,'-w',wfile,'-d',exportDir,'--filter',filter.join(',')]);
+        window.remote.clearTmpDir();
+        let AccessExport = spawn(accesscmd,['-f',file,'-w',wfile,'-d',tmpDir,'--filter',filter.join(',')]);
         AccessExport.stdout.on('data', (data) => {
             cb(data.toString());
         });
         AccessExport.on('close',()=>{
             cb('done',true);
         });
+    },
+    clearTmpDir: ()=>{
+        let files = [];
+        if(fs.existsSync(tmpDir)){
+            files = fs.readdirSync(tmpDir);
+            files.forEach((file, index) => {
+                let curPath = tmpDir + file;
+                if(fs.statSync(curPath).isDirectory()){
+                    window.remote.clearTmpDir(curPath); //递归删除文件夹
+                } else {
+                    fs.unlinkSync(curPath); //删除文件
+                }
+            });
+        }
     }
 };
