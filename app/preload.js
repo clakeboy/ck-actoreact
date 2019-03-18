@@ -1,13 +1,14 @@
 const { ipcRenderer,remote } = require('electron');
-const { spawn } = require('child_process');
+const spawn = require('child_process').spawn;
 const {dialog} = remote;
 const path = require('path');
 const os = require('os');
 const fs = require('fs');
-const accesscmd = path.join(__dirname,'accesscmd/AccessExport.exe');
-const convertcmd = path.join(__dirname,'accesscmd/Convert.exe');
+const accesscmd = path.join(__dirname.replace('app.asar', 'app.asar.unpacked'),'accesscmd/AccessExport.exe');
+const convertcmd = path.join(__dirname.replace('app.asar', 'app.asar.unpacked'),'accesscmd/Convert.exe');
 const tmpDir = path.join(os.tmpdir(),'actojs/');
-
+console.log(tmpDir);
+console.log(remote.process.version);
 window.remote = {
     process : remote.process,
     openFile : (cb)=>{
@@ -41,24 +42,48 @@ window.remote = {
         AccessExport.stdout.on('data', (data) => {
             cb(data.toString());
         });
-        AccessExport.on('close',()=>{
-            cb('done',true);
+        AccessExport.stderr.on('data', (data) => {
+            console.log(`stderr: ${data}`);
+        });
+        AccessExport.on('exit',()=>{
+            // cb('done',true);
+            setTimeout(()=>{window.remote.convert(exportDir,cb);},1000);
         });
     },
     exportSelected: (file,wfile,exportDir,filter,cb)=>{
         window.remote.clearTmpDir();
+
         let AccessExport = spawn(accesscmd,['-f',file,'-w',wfile,'-d',tmpDir,'--filter',filter.join(',')]);
         AccessExport.stdout.on('data', (data) => {
             cb(data.toString());
         });
+        AccessExport.stderr.on('data', (data) => {
+            console.log(`stderr: ${data}`);
+        });
+        AccessExport.on('error', (data) => {
+            console.log(`error: ${data}`);
+        });
         AccessExport.on('close',()=>{
-            cb('done',true);
+            console.log('export close');
+
+            // cb('done',true);
+        });
+        AccessExport.on('exit',()=>{
+            console.log('export exit');
+            setTimeout(()=>{window.remote.convert(exportDir,cb);},1000);
         });
     },
     convert: (exportDir,cb) => {
-        let AccessExport = spawn(convertcmd,['-f',file,'-w',wfile,'-d',tmpDir,'--filter',filter.join(',')]);
+        let AccessExport = spawn(convertcmd,['-dir',tmpDir,'-output',exportDir],{cwd:path.join(__dirname.replace('app.asar', 'app.asar.unpacked'),'accesscmd')});
         AccessExport.stdout.on('data', (data) => {
             cb(data.toString());
+        });
+        AccessExport.stderr.on('data', (data) => {
+            console.log(`stderr: ${data}`);
+        });
+        AccessExport.on('error', (data) => {
+            console.log(`error: ${data}`);
+            cb(data.toString(),true);
         });
         AccessExport.on('close',()=>{
             cb('done',true);

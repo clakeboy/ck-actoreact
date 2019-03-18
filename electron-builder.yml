@@ -4,6 +4,8 @@ directories:
   output: "build"
 files:
   - "app/**/*"
+asarUnpack:
+  - "app/accesscmd/**/*"
 #extraResources:
 #  - from: "static"
 #    to: "static"
