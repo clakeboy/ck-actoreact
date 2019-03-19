@@ -29,7 +29,7 @@ mac:
 win:
   icon: "static/app.ico"
   target:
-    - "nsis"
+#    - "nsis"
     - "zip"
 linux:
   icon: "static/app.ico"

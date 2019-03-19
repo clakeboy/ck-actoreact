@@ -6,12 +6,14 @@ const {app, BrowserWindow, ipcMain} = require('electron');
 let mainWindow;
 let debug = process.argv[2] === 'debug';
 
+let appPkg = require("../package.json");
+
 function createWindow() {
     const path = require('path');
     // Create the browser window.
     mainWindow = new BrowserWindow({
         width: 800, height: 600,
-        title:'Access to React-Bootstrap',
+        title:'Access to React-Bootstrap v'+appPkg.version,
         center:true,
         resizable:false,
         fullscreen:false,
@@ -29,8 +31,8 @@ function createWindow() {
     }
 
     // Open the DevTools.
-   // debug && mainWindow.webContents.openDevTools();
-    mainWindow.webContents.openDevTools();
+    debug && mainWindow.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
     // Emitted when the window is closed.
     mainWindow.on('closed', function () {
         // Dereference the window object, usually you would store windows

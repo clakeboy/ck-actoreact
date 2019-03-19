@@ -7,8 +7,11 @@ const fs = require('fs');
 const accesscmd = path.join(__dirname.replace('app.asar', 'app.asar.unpacked'),'accesscmd/AccessExport.exe');
 const convertcmd = path.join(__dirname.replace('app.asar', 'app.asar.unpacked'),'accesscmd/Convert.exe');
 const tmpDir = path.join(os.tmpdir(),'actojs/');
-console.log(tmpDir);
-console.log(remote.process.version);
+
+if (!fs.existsSync(tmpDir)) {
+    fs.mkdirSync(tmpDir);
+}
+
 window.remote = {
     process : remote.process,
     openFile : (cb)=>{
@@ -27,13 +30,31 @@ window.remote = {
     },
     getWindowList: (file,cb)=>{
         let AccessExport = spawn(accesscmd,['-f',file,'--windows']);
+        let listData = [];
         AccessExport.stdout.on('data', (data) => {
+            console.log(data.toString());
+            listData.push(data.toString());
+        });
+        AccessExport.stderr.on('data', (data) => {
+            console.log(`stderr: ${data}`);
+        });
+        AccessExport.on('error', (data) => {
+            console.log(`error: ${data}`);
+        });
+        AccessExport.on('close',(code)=>{
+            console.log('export close',code);
+
+            // cb('done',true);
+        });
+        AccessExport.on('exit',()=>{
             try {
-                let window_list = JSON.parse(data.toString());
+                let window_list = JSON.parse(listData.join());
                 cb(window_list);
             } catch(e) {
-                cb(`${e.toString()}:${data.toString()}`);
+                cb(`${e.toString()}:${listData.join()}`);
             }
+
+            AccessExport.kill();
         });
     },
     exportAccess: (file,wfile,exportDir,cb)=>{
@@ -47,6 +68,7 @@ window.remote = {
         });
         AccessExport.on('exit',()=>{
             // cb('done',true);
+            AccessExport.kill();
             setTimeout(()=>{window.remote.convert(exportDir,cb);},1000);
         });
     },
@@ -70,6 +92,7 @@ window.remote = {
         });
         AccessExport.on('exit',()=>{
             console.log('export exit');
+            AccessExport.kill();
             setTimeout(()=>{window.remote.convert(exportDir,cb);},1000);
         });
     },

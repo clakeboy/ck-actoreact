@@ -191,8 +191,11 @@ class Main extends React.Component {
                                                                     windowList:data,
                                                                     currentTab:'list'
                                                                 });
+
+                                                                this.modal.close();
+                                                            } else {
+                                                                this.modal.alert(data);
                                                             }
-                                                            this.modal.close();
                                                         });
                                                     });
                                                 }
