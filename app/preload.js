@@ -16,17 +16,25 @@ window.remote = {
     process : remote.process,
     openFile : (cb)=>{
         // let win  = ipcRenderer.sendSync('getMainWindow','');
-        console.log(dialog.showOpenDialog(remote.getCurrentWindow(),{
+        let output = dialog.showOpenDialogSync(remote.getCurrentWindow(),{
             title:'Choose file', properties: ['openFile'],
             filters:[
                 { name: 'Access', extensions: ['mdb', 'acdb'] }
             ]
-        },cb));
+        });
+        cb(output);
+        // console.log(dialog.showOpenDialog(remote.getCurrentWindow(),{
+        //     title:'Choose file', properties: ['openFile'],
+        //     filters:[
+        //         { name: 'Access', extensions: ['mdb', 'acdb'] }
+        //     ]
+        // },cb));
     },
     openDirectory: (cb)=>{
         // let win  = ipcRenderer.sendSync('getMainWindow','');
         // console.log(dialog.showSaveDialog(win,{title:'choose directory'},cb));
-        console.log(dialog.showOpenDialog(remote.getCurrentWindow(),{title:'Choose directory', properties: ['openDirectory']},cb));
+        let output = dialog.showOpenDialogSync(remote.getCurrentWindow(),{title:'Choose directory', properties: ['openDirectory']});
+        cb(output);
     },
     getWindowList: (file,cb)=>{
         let AccessExport = spawn(accesscmd,['-f',file,'--windows']);
