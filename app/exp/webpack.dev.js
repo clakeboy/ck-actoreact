@@ -9,7 +9,7 @@ module.exports = merge(cfg,{
         index : [
             'webpack/hot/dev-server',
             // 'webpack-hot-middleware/client?reload=true',
-            path.join(__fix_dirname, 'src/index.jsx')
+            path.join(__fix_dirname, 'src/app.js')
         ]
     },
     output: {

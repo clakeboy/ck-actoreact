@@ -9,6 +9,7 @@ import {
 } from 'react-router-dom';
 
 import App from './components/App';
+import './css/main.less';
 
 const routes = (
     <Router>

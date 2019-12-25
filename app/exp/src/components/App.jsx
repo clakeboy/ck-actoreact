@@ -2,65 +2,51 @@
  * Created by clakeboy on 2017/12/3.
  */
 import React from 'react';
-import ReactDOM from 'react-dom';
-import Header from "./Header";
-import ServerMenu from "./ServerMenu";
-import {CommonContext} from '../context/Common';
+import {GetComponent,GetQuery} from "../common/Funcs";
+import Login from "./Login";
 import {
-    Common,
-    LoaderComponent,
-    Modal,
+    LoaderComponent
 } from '@clake/react-bootstrap4';
-import {GetComponent, GetQuery} from "../common/Funcs";
-import Drag from "../common/Drag";
-import Main from "../view/Main";
 
 export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            login: false,
-            title: '',
+            login:false,
+            title:'ABI Query',
         };
-        this.modal = null;
     }
 
     componentDidMount() {
-        // this.drag = new Drag(this.splitDom,this.splitDom,{
-        //     start:(dragDom,evtDom,e)=>{
-        //         dragDom.classList.add('ck-split-show');
-        //         return true;
-        //     },
-        //     move:(move,dragDom,evtDom,e)=>{
-        //         move.y = 0;
-        //         if (move.x < 100) move.x = 100;
-        //         if (move.x > document.body.clientWidth-200) move.x = document.body.clientWidth-200;
-        //     },
-        //     end:(dragDom,evtDom,e)=>{
-        //         let dom = ReactDOM.findDOMNode(this.leftDom);
-        //         dom.style.width = dragDom.style.left;
-        //         dragDom.classList.remove('ck-split-show');
-        //     }
-        // });
+
     }
 
-    setLogin = (user, is_login) => {
+    setLogin = (user,is_login) => {
         this.user = user;
         this.setState({
-            login: is_login
+            login:is_login
         });
     };
 
-    setTitle = (title) => {
+    setTitle = (title)=>{
         this.setState({
-            title: title
+            title:title
         });
-        document.title = title + ' - Moogo';
+        document.title = title;
     };
 
-    getModal = ()=>{
-        return this.modal;
-    };
+    ucFirst(str) {
+        let first = str[0].toUpperCase();
+        return first+str.substr(1);
+    }
+
+    under2hump(str) {
+        let arr = str.split('_');
+        let hump = arr.map((item)=>{
+            return this.ucFirst(item);
+        });
+        return hump.join('');
+    }
 
     explainUrl(path) {
         let arr = path.split('/');
@@ -69,25 +55,17 @@ export default class App extends React.Component {
         if (module === "") {
             module = 'Main';
         } else {
-            module = Common.under2hump(module)
+            module = this.under2hump(module)
         }
-
-        return arr.join('/') + "/" + module;
+        let ext_path = arr.length > 0 ? '/' : '';
+        return ext_path + arr.join('/') + "/" + module;
     }
 
     render() {
-        // if (!this.state.login) {
-        //     return <Login setLogin={this.setLogin}/>
-        // }
-        // console.log(this.props);
-        let load_path = this.explainUrl(this.props.location.pathname);
-        return (
-            <CommonContext.Provider value={{title:this.setTitle,login:this.setLogin,modal:this.getModal}}>
-            <div className='d-flex flex-column h-100'>
-                <LoaderComponent import={GetComponent} loadPath={load_path}/>
-                <Modal ref={c=>this.modal=c}/>
-            </div>
-            </CommonContext.Provider>
-        );
+        if (!this.state.login) {
+            return <Login setLogin={this.setLogin}/>
+        }
+        let path = this.explainUrl(this.props.location.pathname);
+        return <LoaderComponent loadPath={path} query={GetQuery(this.props.location.search)} import={GetComponent} setLogin={this.setLogin} setTitle={this.setTitle} user={this.user} {...this.props}/>
     }
 }

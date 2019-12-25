@@ -6,7 +6,7 @@ let cfg = require('./webpack.common').default;
 export default merge(cfg,{
     entry: {
         //主文件
-        index : './src/index.jsx'
+        index : './src/app.js'
     },
     //插件项
     plugins: [
