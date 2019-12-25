@@ -47,6 +47,10 @@ ipcMain.on('getMainWindow',(evt,arg)=>{
     evt.returnValue = mainWindow;
 });
 
+// ipcMain.on('getPreview',(evt)=>{
+//     evt.returnValue = Preview;
+// });
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.

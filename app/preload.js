@@ -7,7 +7,7 @@ const fs = require('fs');
 const accesscmd = path.join(__dirname.replace('app.asar', 'app.asar.unpacked'),'accesscmd/AccessExport.exe');
 const convertcmd = path.join(__dirname.replace('app.asar', 'app.asar.unpacked'),'accesscmd/Convert.exe');
 const tmpDir = path.join(os.tmpdir(),'actojs/');
-
+const Preview = require('./preview.js');
 if (!fs.existsSync(tmpDir)) {
     fs.mkdirSync(tmpDir);
 }
@@ -133,5 +133,10 @@ window.remote = {
                 }
             });
         }
+    },
+    openPreview:()=>{
+        // ipcRenderer.send('getPreview')
+        Preview.start();
+        Preview.createBrowseWindow();
     }
 };

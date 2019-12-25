@@ -236,8 +236,9 @@ class Main extends React.Component {
                             </div>
                             <div className='col'>
                                 <div className='h-100 p-2 bg-white rounded border'>
-                                    Some option
-
+                                    <Button onClick={()=>{
+                                        window.remote.openPreview();
+                                    }}>Preview</Button>
                                 </div>
                             </div>
                         </div>
