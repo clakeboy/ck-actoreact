@@ -18,6 +18,7 @@ function createWindow() {
         resizable:false,
         fullscreen:false,
         webPreferences:{
+            devTools:debug,
             nodeIntegration:false,
             preload:path.join(__dirname, './preload.js')
         }
@@ -31,7 +32,7 @@ function createWindow() {
     }
 
     // Open the DevTools.
-    debug && mainWindow.webContents.openDevTools();
+    // debug && mainWindow.webContents.openDevTools();
     // mainWindow.webContents.openDevTools();
     // Emitted when the window is closed.
     mainWindow.on('closed', function () {
@@ -40,7 +41,7 @@ function createWindow() {
         // when you should delete the corresponding element.
         mainWindow = null
     });
-    mainWindow.setMenu(null);
+    !debug && mainWindow.setMenu(null);
 }
 
 ipcMain.on('getMainWindow',(evt,arg)=>{

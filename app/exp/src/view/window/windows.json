@@ -1,114 +1,58 @@
 [
     {
-        "height": "512px",
-        "name": "f_sysu_user_query",
-        "title": "Query User",
-        "uname": "FSysuUserQuery",
-        "width": "520px"
-    },
-    {
-        "height": "508px",
-        "name": "f_sysb_barnch_group_query",
-        "title": "Query Branch - Group",
-        "uname": "FSysbBarnchGroupQuery",
-        "width": "516px"
-    },
-    {
-        "height": "512px",
-        "name": "f_sysg_group_query",
-        "title": "Query Group",
-        "uname": "FSysgGroupQuery",
-        "width": "448px"
+        "height": "590px",
+        "name": "f_ztb_setup_base",
+        "title": "Base Table",
+        "uname": "FZtbSetupBase",
+        "width": "864px"
     },
     {
         "height": "528px",
-        "name": "f_abro_summary",
-        "title": "Review Customs Status -  House Summary",
-        "uname": "FAbroSummary",
-        "width": "855px"
+        "name": "f_cvm_map_query",
+        "title": "Query Customer",
+        "uname": "FCvmMapQuery",
+        "width": "864px"
     },
     {
         "height": "528px",
-        "name": "f_ams_master_group_query",
-        "title": "Query Master Only",
-        "uname": "FAmsMasterGroupQuery",
+        "name": "f_cvm_query",
+        "title": "Query Customer",
+        "uname": "FCvmQuery",
+        "width": "940px"
+    },
+    {
+        "height": "480px",
+        "name": "f_com",
+        "title": "Company Profile - Add New and Update",
+        "uname": "FCom",
         "width": "788px"
     },
     {
         "height": "528px",
-        "name": "f_log_query",
-        "title": "Query Request Logs",
-        "uname": "FLogQuery",
-        "width": "612px"
-    },
-    {
-        "height": "528px",
-        "name": "f_abra_summary",
-        "title": "Review Customs Status -  House Summary",
-        "uname": "FAbraSummary",
-        "width": "840px"
-    },
-    {
-        "height": "182px",
-        "name": "f_ssa_save",
-        "title": "CHANGE  DATE",
-        "uname": "FSsaSave",
-        "width": "388px"
-    },
-    {
-        "height": "528px",
-        "name": "f_abh_query",
-        "title": "Query House History",
-        "uname": "FAbhQuery",
-        "width": "792px"
-    },
-    {
-        "height": "528px",
-        "name": "f_abi_master_query",
-        "title": "Query Master - Group",
-        "uname": "FAbiMasterQuery",
-        "width": "848px"
-    },
-    {
-        "height": "436px",
-        "name": "f_abho_house_review",
-        "title": "USCS Release Status by House",
-        "uname": "FAbhoHouseReview",
-        "width": "624px"
-    },
-    {
-        "height": "456px",
-        "name": "f_abha_house_review",
-        "title": "USCS Release Status by House",
-        "uname": "FAbhaHouseReview",
-        "width": "669px"
+        "name": "f_cvmg_group_query",
+        "title": "Query Group",
+        "uname": "FCvmgGroupQuery",
+        "width": "864px"
     },
     {
         "height": "523px",
-        "name": "f_abia_master",
-        "title": "Customs Status Query",
-        "uname": "FAbiaMaster",
-        "width": "844px"
+        "name": "f_mbl_query",
+        "title": "Query MBL",
+        "uname": "FMblQuery",
+        "width": "912px"
     },
     {
-        "height": "504px",
-        "name": "f_abio_master",
-        "title": "Customs Status Query",
-        "uname": "FAbioMaster",
-        "width": "844px"
+        "height": "365px",
+        "name": "f_cvmg_group",
+        "title": "Group",
+        "uname": "FCvmgGroup",
+        "width": "428px"
     },
     {
-        "height": "361px",
-        "name": "f_tra_truck_rate",
-        "title": "Truck Rate",
-        "uname": "FTraTruckRate",
-        "width": "652px"
-    },
-    {
-        "height": "560px",
-        "name": "f_tra_truck_rate_query",
-        "title": "Query Truck Rate",
-        "uname": "FTraTruckRateQuery",
-        "width": "1001px"
+        "height": "528px",
+        "name": "f_cvm",
+        "title": "Maintain Customer",
+        "uname": "FCvm",
+        "width": "784px"
     }
 ]

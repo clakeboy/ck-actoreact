@@ -11,7 +11,7 @@ const Preview = require('./preview.js');
 if (!fs.existsSync(tmpDir)) {
     fs.mkdirSync(tmpDir);
 }
-
+console.log(tmpDir);
 window.remote = {
     process : remote.process,
     openFile : (cb)=>{
