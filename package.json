@@ -59,7 +59,7 @@
     "webpack-merge": "^4.2.2",
     "whatwg-fetch": "^3.0.0",
     "classnames": "^2.2.6",
-    "@clake/react-bootstrap4": "^1.0.6",
+    "@clake/react-bootstrap4": "^1.0.8",
     "@clake/react-bootstrap4-window": "^0.2.6"
   }
 }

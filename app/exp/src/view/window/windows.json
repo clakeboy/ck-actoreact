@@ -1,33 +1,5 @@
 [
     {
-        "height": "590px",
-        "name": "f_ztb_setup_base",
-        "title": "Base Table",
-        "uname": "FZtbSetupBase",
-        "width": "864px"
-    },
-    {
-        "height": "528px",
-        "name": "f_cvm_map_query",
-        "title": "Query Customer",
-        "uname": "FCvmMapQuery",
-        "width": "864px"
-    },
-    {
-        "height": "528px",
-        "name": "f_cvm_query",
-        "title": "Query Customer",
-        "uname": "FCvmQuery",
-        "width": "940px"
-    },
-    {
-        "height": "480px",
-        "name": "f_com",
-        "title": "Company Profile - Add New and Update",
-        "uname": "FCom",
-        "width": "788px"
-    },
-    {
         "height": "528px",
         "name": "f_cvmg_group_query",
         "title": "Query Group",
@@ -40,6 +12,34 @@
         "title": "Query MBL",
         "uname": "FMblQuery",
         "width": "912px"
+    },
+    {
+        "height": "590px",
+        "name": "f_ztb_setup_base",
+        "title": "Base Table",
+        "uname": "FZtbSetupBase",
+        "width": "864px"
+    },
+    {
+        "height": "480px",
+        "name": "f_com",
+        "title": "Company Profile - Add New and Update",
+        "uname": "FCom",
+        "width": "788px"
+    },
+    {
+        "height": "528px",
+        "name": "f_cvm_query",
+        "title": "Query Customer",
+        "uname": "FCvmQuery",
+        "width": "940px"
+    },
+    {
+        "height": "528px",
+        "name": "f_cvm_map_query",
+        "title": "Query Customer",
+        "uname": "FCvmMapQuery",
+        "width": "864px"
     },
     {
         "height": "365px",

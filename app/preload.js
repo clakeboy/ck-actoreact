@@ -7,6 +7,7 @@ const fs = require('fs');
 const accesscmd = path.join(__dirname.replace('app.asar', 'app.asar.unpacked'),'accesscmd/AccessExport.exe');
 const convertcmd = path.join(__dirname.replace('app.asar', 'app.asar.unpacked'),'accesscmd/Convert.exe');
 const tmpDir = path.join(os.tmpdir(),'actojs/');
+const previewDir = path.join(__dirname.replace('app.asar', 'app.asar.unpacked'),'exp/src/view/window/');
 const Preview = require('./preview.js');
 if (!fs.existsSync(tmpDir)) {
     fs.mkdirSync(tmpDir);
@@ -80,9 +81,11 @@ window.remote = {
             setTimeout(()=>{window.remote.convert(exportDir,cb);},1000);
         });
     },
-    exportSelected: (file,wfile,exportDir,filter,cb)=>{
+    exportSelected: (file,wfile,exportDir,preview,filter,cb)=>{
         window.remote.clearTmpDir();
-
+        if (preview) {
+            exportDir = previewDir;
+        }
         let AccessExport = spawn(accesscmd,['-f',file,'-w',wfile,'-d',tmpDir,'--filter',filter.join(',')]);
         AccessExport.stdout.on('data', (data) => {
             cb(data.toString());
@@ -126,6 +129,20 @@ window.remote = {
             files = fs.readdirSync(tmpDir);
             files.forEach((file, index) => {
                 let curPath = tmpDir + file;
+                if(fs.statSync(curPath).isDirectory()){
+                    window.remote.clearTmpDir(curPath); //递归删除文件夹
+                } else {
+                    fs.unlinkSync(curPath); //删除文件
+                }
+            });
+        }
+    },
+    clearPreviewDir: ()=>{
+        let files = [];
+        if(fs.existsSync(previewDir)){
+            files = fs.readdirSync(previewDir);
+            files.forEach((file, index) => {
+                let curPath = previewDir + file;
                 if(fs.statSync(curPath).isDirectory()){
                     window.remote.clearTmpDir(curPath); //递归删除文件夹
                 } else {

@@ -19,7 +19,8 @@ import ReactBootstrap4,{
     Card,
     LoaderComponent,
     Menu,
-    CKModal
+    CKModal,
+    ButtonGroup
 } from '@clake/react-bootstrap4';
 import Storage from "../common/Storage";
 
@@ -102,6 +103,7 @@ class Main extends React.Component {
                 this.state.mainAccessFile,
                 this.state.wDbAccessFile,
                 this.state.exportDir,
+                false,
                 filterList,
                 (msg,done)=>{
                     if (done) {
@@ -113,6 +115,49 @@ class Main extends React.Component {
                 }
             )
         });
+    };
+
+    exportSelectionPreview = ()=>{
+        if (!this.check()) {
+            return;
+        }
+        let filterList = [];
+        let rows = this.selectTable.getSelectRows();
+        if (rows.length <= 0) {
+            this.modal.alert({
+                header:false,
+                content:'Please select some window to convert'
+            });
+            return false;
+        }
+        rows.forEach((row)=>{
+            filterList.push(row.window_name);
+        });
+        this.setState({
+            currentTab:'log',
+            output:[<span className='text-danger'>Start converting to preview</span>],
+            running:true
+        },()=>{
+            window.remote.exportSelected(
+                this.state.mainAccessFile,
+                this.state.wDbAccessFile,
+                this.state.exportDir,
+                true,
+                filterList,
+                (msg,done)=>{
+                    if (done) {
+                        this.pushLog(<span className='text-success'>{msg}</span>);
+                        this.done();
+                    } else {
+                        this.pushLog(msg);
+                    }
+                }
+            )
+        });
+    };
+
+    clearPreviewDir = () => {
+        window.remote.clearPreviewDir();
     };
 
     done() {
@@ -236,9 +281,10 @@ class Main extends React.Component {
                             </div>
                             <div className='col'>
                                 <div className='h-100 p-2 bg-white rounded border'>
-                                    <Button onClick={()=>{
+                                    <Button className='mr-1' onClick={()=>{
                                         window.remote.openPreview();
-                                    }}>Preview</Button>
+                                    }} size='sm'>Preview</Button>
+                                    <Button size='sm' theme='danger' icon='trash-alt' outline onClick={this.clearPreviewDir}>Clear Preview</Button>
                                 </div>
                             </div>
                         </div>
@@ -250,7 +296,10 @@ class Main extends React.Component {
                             <TabsContent id='list' text='Export window list' disabled={this.state.running}>
                                 <div className='p-3 bg-white'>
                                     <div className='mb-1'>
+                                        <ButtonGroup>
                                         <Button disabled={this.state.running} size='sm' onClick={this.exportSelection}>Convert selected</Button>
+                                        <Button disabled={this.state.running} size='sm' theme='success' outline onClick={this.exportSelectionPreview}>Preview selected</Button>
+                                        </ButtonGroup>
                                         <Button disabled={this.state.running} className='float-right' size='sm' outline onClick={this.exportAll}>Convert all</Button>
                                     </div>
                                     <Table ref={c=>this.selectTable=c} hover={true} select={true} sm fontSm headerTheme='light' height='270px' emptyText='not window data' data={this.state.windowList}>
