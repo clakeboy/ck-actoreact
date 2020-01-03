@@ -4,8 +4,9 @@
   "description": "Access convert to react application",
   "main": "app/main.js",
   "scripts": {
-    "start-app-debug": "electron app/main.js debug",
+    "start-app-debug": "electron app/main.js app_debug",
     "start-app": "electron app/main.js",
+    "start-web-debug": "electron app/main.js web_debug",
     "start-web": "gulp",
     "build": "electron-builder --win --x64",
     "build-test": "electron-builder --win --x64 --dir",
@@ -18,7 +19,7 @@
   "author": "Clake",
   "license": "",
   "devDependencies": {
-    "electron": "^7.1.4",
+    "electron": "^7.1.7",
     "electron-builder": "^21.2.0",
     "electron-packager": "^13.1.0",
     "gulp": "^3.9.1",
@@ -59,7 +60,7 @@
     "webpack-merge": "^4.2.2",
     "whatwg-fetch": "^3.0.0",
     "classnames": "^2.2.6",
-    "@clake/react-bootstrap4": "^1.0.8",
+    "@clake/react-bootstrap4": "^1.0.9",
     "@clake/react-bootstrap4-window": "^0.2.6"
   }
 }

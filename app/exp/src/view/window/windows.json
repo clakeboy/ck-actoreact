@@ -7,18 +7,18 @@
         "width": "864px"
     },
     {
-        "height": "523px",
-        "name": "f_mbl_query",
-        "title": "Query MBL",
-        "uname": "FMblQuery",
-        "width": "912px"
+        "height": "528px",
+        "name": "f_cvm_query",
+        "title": "Query Customer",
+        "uname": "FCvmQuery",
+        "width": "940px"
     },
     {
-        "height": "590px",
-        "name": "f_ztb_setup_base",
-        "title": "Base Table",
-        "uname": "FZtbSetupBase",
-        "width": "864px"
+        "height": "365px",
+        "name": "f_cvmg_group",
+        "title": "Group",
+        "uname": "FCvmgGroup",
+        "width": "428px"
     },
     {
         "height": "480px",
@@ -28,11 +28,18 @@
         "width": "788px"
     },
     {
-        "height": "528px",
-        "name": "f_cvm_query",
-        "title": "Query Customer",
-        "uname": "FCvmQuery",
-        "width": "940px"
+        "height": "590px",
+        "name": "f_ztb_setup_base",
+        "title": "Base Table",
+        "uname": "FZtbSetupBase",
+        "width": "864px"
+    },
+    {
+        "height": "523px",
+        "name": "f_mbl_query",
+        "title": "Query MBL",
+        "uname": "FMblQuery",
+        "width": "912px"
     },
     {
         "height": "528px",
@@ -40,13 +47,6 @@
         "title": "Query Customer",
         "uname": "FCvmMapQuery",
         "width": "864px"
-    },
-    {
-        "height": "365px",
-        "name": "f_cvmg_group",
-        "title": "Group",
-        "uname": "FCvmgGroup",
-        "width": "428px"
     },
     {
         "height": "528px",

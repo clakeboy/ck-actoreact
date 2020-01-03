@@ -13,6 +13,13 @@ if (!fs.existsSync(tmpDir)) {
     fs.mkdirSync(tmpDir);
 }
 console.log(tmpDir);
+console.log(setImmediate);
+const _setImmediate = setImmediate;
+const _clearImmediate = clearImmediate;
+process.once('loaded', () => {
+    global.setImmediate = _setImmediate;
+    global.clearImmediate = _clearImmediate;
+});
 window.remote = {
     process : remote.process,
     openFile : (cb)=>{
@@ -109,6 +116,22 @@ window.remote = {
     },
     convert: (exportDir,cb) => {
         let AccessExport = spawn(convertcmd,['-dir',tmpDir,'-output',exportDir],{cwd:path.join(__dirname.replace('app.asar', 'app.asar.unpacked'),'accesscmd')});
+        AccessExport.stdout.on('data', (data) => {
+            cb(data.toString());
+        });
+        AccessExport.stderr.on('data', (data) => {
+            console.log(`stderr: ${data}`);
+        });
+        AccessExport.on('error', (data) => {
+            console.log(`error: ${data}`);
+            cb(data.toString(),true);
+        });
+        AccessExport.on('close',()=>{
+            cb('done',true);
+        });
+    },
+    runDemoServer: ()=>{
+        let AccessExport = spawn(convertcmd,['-http','-debug','-cross','-pprof'],{cwd:path.join(__dirname.replace('app.asar', 'app.asar.unpacked'),'accesscmd')});
         AccessExport.stdout.on('data', (data) => {
             cb(data.toString());
         });

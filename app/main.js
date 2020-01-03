@@ -4,7 +4,8 @@ const {app, BrowserWindow, ipcMain} = require('electron');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
-let debug = process.argv[2] === 'debug';
+let web_debug = process.argv[2] === 'web_debug';
+let app_debug = process.argv[2] === 'app_debug';
 
 let appPkg = require("../package.json");
 
@@ -18,17 +19,19 @@ function createWindow() {
         resizable:false,
         fullscreen:false,
         webPreferences:{
-            devTools:debug,
+            devTools:web_debug || app_debug,
             nodeIntegration:false,
+            enableRemoteModule:true,
             preload:path.join(__dirname, './preload.js')
         }
     });
 
     // and load the index.html of the app.
-    if (debug) {
+    if (web_debug) {
         mainWindow.loadURL('http://127.0.0.1:3000');
     } else {
-        mainWindow.loadFile(path.join(__dirname, 'ui/index.html'));
+        // mainWindow.loadFile(path.join(__dirname, 'ui/index.html'));
+        mainWindow.loadURL('file://'+path.join(__dirname, 'ui/index.html'));
     }
 
     // Open the DevTools.
@@ -41,7 +44,7 @@ function createWindow() {
         // when you should delete the corresponding element.
         mainWindow = null
     });
-    !debug && mainWindow.setMenu(null);
+    !web_debug && !app_debug && mainWindow.setMenu(null);
 }
 
 ipcMain.on('getMainWindow',(evt,arg)=>{

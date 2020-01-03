@@ -5,6 +5,7 @@ let preWindow;
 let devServer;
 let Preview = {
     start:()=>{
+        console.log(setImmediate);
         // import webpack from 'webpack';
         let webpack = require('webpack');
         let webpackDevServer = require('webpack-dev-server');
