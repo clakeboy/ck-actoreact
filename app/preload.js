@@ -12,8 +12,7 @@ const Preview = require('./preview.js');
 if (!fs.existsSync(tmpDir)) {
     fs.mkdirSync(tmpDir);
 }
-console.log(tmpDir);
-console.log(setImmediate);
+
 const _setImmediate = setImmediate;
 const _clearImmediate = clearImmediate;
 process.once('loaded', () => {
