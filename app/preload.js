@@ -6,6 +6,7 @@ const os = require('os');
 const fs = require('fs');
 const accesscmd = path.join(__dirname.replace('app.asar', 'app.asar.unpacked'),'accesscmd/AccessExport.exe');
 const convertcmd = path.join(__dirname.replace('app.asar', 'app.asar.unpacked'),'accesscmd/Convert.exe');
+const binDir = path.join(__dirname.replace('app.asar', 'app.asar.unpacked'),'accesscmd/');
 const tmpDir = path.join(os.tmpdir(),'actojs/');
 const previewDir = path.join(__dirname.replace('app.asar', 'app.asar.unpacked'),'exp/src/view/window/');
 const Preview = require('./preview.js');
@@ -18,6 +19,14 @@ const _clearImmediate = clearImmediate;
 process.once('loaded', () => {
     global.setImmediate = _setImmediate;
     global.clearImmediate = _clearImmediate;
+});
+
+let demoServer;
+
+process.on('exit',()=>{
+    if (demoServer) {
+        demoServer.kill();
+    }
 });
 window.remote = {
     process : remote.process,
@@ -129,21 +138,24 @@ window.remote = {
             cb('done',true);
         });
     },
-    runDemoServer: ()=>{
-        let AccessExport = spawn(convertcmd,['-http','-debug','-cross','-pprof'],{cwd:path.join(__dirname.replace('app.asar', 'app.asar.unpacked'),'accesscmd')});
-        AccessExport.stdout.on('data', (data) => {
+    runDemoServer: (cb)=>{
+        demoServer = spawn(convertcmd,['-http','-debug','-cross','-pprof','-sdb',binDir+'db/demo.sdb'],{cwd:path.join(__dirname.replace('app.asar', 'app.asar.unpacked'),'accesscmd')});
+        demoServer.stdout.on('data', (data) => {
             cb(data.toString());
         });
-        AccessExport.stderr.on('data', (data) => {
+        demoServer.stderr.on('data', (data) => {
             console.log(`stderr: ${data}`);
         });
-        AccessExport.on('error', (data) => {
+        demoServer.on('error', (data) => {
             console.log(`error: ${data}`);
             cb(data.toString(),true);
         });
-        AccessExport.on('close',()=>{
+        demoServer.on('close',()=>{
             cb('done',true);
         });
+    },
+    convertDB2SQLite:()=>{
+
     },
     clearTmpDir: ()=>{
         let files = [];
@@ -175,6 +187,9 @@ window.remote = {
     },
     openPreview:()=>{
         // ipcRenderer.send('getPreview')
+        window.remote.runDemoServer((output)=>{
+            console.log(output);
+        });
         Preview.start();
         Preview.createBrowseWindow();
     }
