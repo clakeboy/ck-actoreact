@@ -61,6 +61,6 @@
     "whatwg-fetch": "^3.0.0",
     "classnames": "^2.2.6",
     "@clake/react-bootstrap4": "^1.0.9",
-    "@clake/react-bootstrap4-window": "^0.2.6"
+    "@clake/react-bootstrap4-window": "^0.2.8"
   }
 }
