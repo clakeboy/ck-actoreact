@@ -19,7 +19,7 @@ import ReactBootstrap4,{
     Card,
     LoaderComponent,
     Menu,
-    CKModal,
+    Modal,
     ButtonGroup
 } from '@clake/react-bootstrap4';
 import Storage from "../common/Storage";
@@ -157,7 +157,9 @@ class Main extends React.Component {
     };
 
     clearPreviewDir = () => {
+        this.modal.loading('cleaning preview directory...');
         window.remote.clearPreviewDir();
+        this.modal.alert('clean preview done');
     };
 
     done() {
@@ -319,7 +321,7 @@ class Main extends React.Component {
                         </Tabs>
                     </div>
                 </div>
-                <CKModal header={false} ref={c=>this.modal=c}/>
+                <Modal header={false} ref={c=>this.modal=c}/>
             </div>
         );
     }

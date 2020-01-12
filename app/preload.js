@@ -23,11 +23,6 @@ process.once('loaded', () => {
 
 let demoServer;
 
-process.on('exit',()=>{
-    if (demoServer) {
-        demoServer.kill();
-    }
-});
 window.remote = {
     process : remote.process,
     openFile : (cb)=>{
@@ -191,6 +186,11 @@ window.remote = {
             console.log(output);
         });
         Preview.start();
-        Preview.createBrowseWindow();
+        let previewWindow = Preview.createBrowseWindow();
+        previewWindow.on("closed",()=>{
+            if (demoServer) {
+                demoServer.kill();
+            }
+        });
     }
 };
