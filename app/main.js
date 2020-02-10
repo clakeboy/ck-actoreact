@@ -19,6 +19,7 @@ function createWindow() {
         resizable:false,
         fullscreen:false,
         webPreferences:{
+            // devTools:true,
             devTools:web_debug || app_debug,
             nodeIntegration:false,
             enableRemoteModule:true,

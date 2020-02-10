@@ -1,10 +1,11 @@
 appId: "com.ck.actoreact"
 productName: "ck-actoreact"
 directories:
-  output: "build"
+  output: "D:/testdom"
 files:
   - "app/**/*"
 asarUnpack:
+#  - "app/**/*"
   - "app/accesscmd/**/*"
   - "app/exp/**/*"
 #extraResources:
@@ -30,8 +31,9 @@ mac:
 win:
   icon: "static/app.ico"
   target:
-#    - "nsis"
-    - "zip"
+    - "dir"
+##    - "nsis"
+##    - "zip"
 linux:
   icon: "static/app.ico"
 nsis:

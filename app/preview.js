@@ -1,16 +1,15 @@
 const {remote} = require('electron');
 const { BrowserWindow } = remote;
+// require('module').globalPaths.push(process.cwd()+'/node_modules');
 
 let preWindow;
 let devServer;
 let Preview = {
     start:()=>{
-        console.log(setImmediate);
         // import webpack from 'webpack';
         let webpack = require('webpack');
         let webpackDevServer = require('webpack-dev-server');
         let webpackDevConfig = require('./exp/webpack.dev');
-        console.log(webpackDevConfig);
         let compiler = webpack(webpackDevConfig);
         devServer = new webpackDevServer(compiler,{
             // webpack-dev-server options
