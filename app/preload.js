@@ -6,6 +6,7 @@ const os = require('os');
 const fs = require('fs');
 const accesscmd = path.join(__dirname.replace('app.asar', 'app.asar.unpacked'),'accesscmd/AccessExport.exe');
 const convertcmd = path.join(__dirname.replace('app.asar', 'app.asar.unpacked'),'accesscmd/Convert.exe');
+const convert_db_cmd = path.join(__dirname.replace('app.asar', 'app.asar.unpacked'),'accesscmd/convertdb/ConvertAccessToMysql.exe');
 const binDir = path.join(__dirname.replace('app.asar', 'app.asar.unpacked'),'accesscmd/');
 const tmpDir = path.join(os.tmpdir(),'actojs/');
 const previewDir = path.join(__dirname.replace('app.asar', 'app.asar.unpacked'),'exp/src/view/window/');
@@ -34,17 +35,14 @@ window.remote = {
             ]
         });
         cb(output);
-        // console.log(dialog.showOpenDialog(remote.getCurrentWindow(),{
-        //     title:'Choose file', properties: ['openFile'],
-        //     filters:[
-        //         { name: 'Access', extensions: ['mdb', 'acdb'] }
-        //     ]
-        // },cb));
     },
     openDirectory: (cb)=>{
         // let win  = ipcRenderer.sendSync('getMainWindow','');
         // console.log(dialog.showSaveDialog(win,{title:'choose directory'},cb));
-        let output = dialog.showOpenDialogSync(remote.getCurrentWindow(),{title:'Choose directory', properties: ['openDirectory']});
+        let output = dialog.showOpenDialogSync(remote.getCurrentWindow(),{
+            title:'Choose directory',
+            properties: ['openDirectory']
+        });
         cb(output);
     },
     getWindowList: (file,cb)=>{
@@ -117,6 +115,26 @@ window.remote = {
             setTimeout(()=>{window.remote.convert(exportDir,cb);},1000);
         });
     },
+    convertDB2SQLite:(db_path,cb)=>{
+        let dbConvert = spawn(convert_db_cmd,['-t','sqlite','-f',db_path,'-d',binDir+'db/demo.sdb'],{cwd:path.join(__dirname.replace('app.asar', 'app.asar.unpacked'),'accesscmd')});
+        dbConvert.stdout.on('data', (data) => {
+            cb(data.toString());
+        });
+        dbConvert.stderr.on('data', (data) => {
+            console.log(`stderr: ${data}`);
+        });
+        dbConvert.on('error', (data) => {
+            console.log(`error: ${data}`);
+            cb(data.toString(),true);
+        });
+        dbConvert.on('close',()=>{
+            cb('done',true);
+        });
+        dbConvert.on('exit',()=>{
+            console.log('convert database exit');
+            dbConvert.kill();
+        });
+    },
     convert: (exportDir,cb) => {
         let AccessExport = spawn(convertcmd,['-dir',tmpDir,'-output',exportDir],{cwd:path.join(__dirname.replace('app.asar', 'app.asar.unpacked'),'accesscmd')});
         AccessExport.stdout.on('data', (data) => {
@@ -149,9 +167,6 @@ window.remote = {
             cb('done',true);
         });
     },
-    convertDB2SQLite:()=>{
-
-    },
     clearTmpDir: ()=>{
         let files = [];
         if(fs.existsSync(tmpDir)){
@@ -182,15 +197,18 @@ window.remote = {
     },
     openPreview:()=>{
         // ipcRenderer.send('getPreview')
-        window.remote.runDemoServer((output)=>{
-            console.log(output);
-        });
-        Preview.start();
         let previewWindow = Preview.createBrowseWindow();
         previewWindow.on("closed",()=>{
             if (demoServer) {
                 demoServer.kill();
             }
+        });
+        window.remote.runDemoServer((output)=>{
+            console.log(output);
+        });
+        Preview.start(()=>{
+            previewWindow.webContents.loadURL("http://localhost:8033/");
+            previewWindow.setTitle("Preview window");
         });
     }
 };

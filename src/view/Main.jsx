@@ -162,6 +162,26 @@ class Main extends React.Component {
         this.modal.alert('clean preview done');
     };
 
+    convertDemoDatabase = ()=>{
+        this.setState({
+            currentTab:'log',
+            output:[<span className='text-danger'>Start converting demo database to preview</span>],
+            running:true
+        },()=>{
+            window.remote.convertDB2SQLite(
+                this.state.mainAccessFile,
+                (msg,done)=>{
+                    if (done) {
+                        this.pushLog(<span className='text-success'>{msg}</span>);
+                        this.done();
+                    } else {
+                        this.pushLog(msg);
+                    }
+                }
+            )
+        });
+    };
+
     done() {
         this.setState({running:false});
     }
@@ -283,10 +303,15 @@ class Main extends React.Component {
                             </div>
                             <div className='col'>
                                 <div className='h-100 p-2 bg-white rounded border'>
-                                    <Button className='mr-1' onClick={()=>{
-                                        window.remote.openPreview();
-                                    }} size='sm'>Preview</Button>
-                                    <Button size='sm' theme='danger' icon='trash-alt' outline onClick={this.clearPreviewDir}>Clear Preview</Button>
+                                    <div className='mb-1'>
+                                        <Button className='mr-1' onClick={()=>{
+                                            window.remote.openPreview();
+                                        }} size='sm'>Preview</Button>
+                                        <Button size='sm' theme='danger' icon='trash-alt' outline onClick={this.clearPreviewDir}>Clear Preview</Button>
+                                    </div>
+                                    <div>
+                                        <Button onClick={this.convertDemoDatabase} size='sm' theme='success'>Convert demo db</Button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -1,6 +1,6 @@
 {
   "name": "ck-actoreact",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Access convert to react application",
   "main": "app/main.js",
   "scripts": {

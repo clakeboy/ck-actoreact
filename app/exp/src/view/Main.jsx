@@ -160,7 +160,7 @@ class Main extends React.Component {
                     </Window>
                     {windowList.map((item)=>{
                         return (<Window name={item.name} marginTop={25} title={item.title} width={item.width} height={item.height} backColor={'#f3f3f4'}>
-                            <LoaderComponent loadPath={`/window/${item.uname}.jsx`} import={GetComponent}/>
+                            <LoaderComponent loadPath={`/window/${item.uname}.jsx`} parent={this} import={GetComponent}/>
                         </Window>)
                     })}
                 </WindowGroup>

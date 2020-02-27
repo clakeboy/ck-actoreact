@@ -1,11 +1,10 @@
 const {remote} = require('electron');
 const { BrowserWindow } = remote;
 // require('module').globalPaths.push(process.cwd()+'/node_modules');
-
 let preWindow;
 let devServer;
 let Preview = {
-    start:()=>{
+    start:(cb)=>{
         // import webpack from 'webpack';
         let webpack = require('webpack');
         let webpackDevServer = require('webpack-dev-server');
@@ -54,11 +53,13 @@ let Preview = {
             publicPath: '/',
             inline: true,
             // // headers: { "X-Custom-Header": "yes" },
-            stats: { colors: true }
+            stats: { colors: true },
+            onListening:cb
         });
         devServer.listen(8033);
     },
     createBrowseWindow:()=>{
+        if (preWindow) return preWindow;
         preWindow = new BrowserWindow({
             width: 1200,
             height: 800,
@@ -71,9 +72,9 @@ let Preview = {
         });
 
         // and load the index.html of the app.
-        // mainWindow.loadFile('index.html')
-        // mainWindow.loadURL(`file://${__dirname}/index.html`);
-        preWindow.loadURL("http://localhost:8033/");
+        // preWindow.loadFile('loading.html');
+        preWindow.loadURL(`file://${__dirname}/loading.html`);
+        // preWindow.loadURL("http://localhost:8033/");
         //   mainWindow.loadURL("https://lease.tubaozhang.com");
         // Open the DevTools.
         preWindow.webContents.openDevTools();

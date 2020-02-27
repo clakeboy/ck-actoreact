@@ -6,7 +6,7 @@ const {app, BrowserWindow, ipcMain} = require('electron');
 let mainWindow;
 let web_debug = process.argv[2] === 'web_debug';
 let app_debug = process.argv[2] === 'app_debug';
-
+global['debug'] = app_debug || web_debug;
 let appPkg = require("../package.json");
 
 function createWindow() {

@@ -4,6 +4,9 @@ let cfg = require('./webpack.common');
 let path = require('path');
 let __fix_dirname = __dirname.replace('app.asar', 'app.asar.unpacked');
 let __fix_babel = path.resolve(__dirname, '..', '..', '..', '..', 'resources', 'app.asar', 'node_modules');
+const {remote} = require('electron');
+let debug = remote.getGlobal('debug');
+
 module.exports = merge(cfg,{
     resolveLoader:{
         modules: [
@@ -65,7 +68,7 @@ module.exports = merge(cfg,{
             {
                 test: /\.jsx$/,
                 use: {loader:'babel-loader',options:{
-                        cwd:__fix_babel,
+                        cwd:debug?'':__fix_babel,
                         presets:[
                             "@babel/preset-env",
                             "@babel/preset-react"
@@ -83,7 +86,7 @@ module.exports = merge(cfg,{
             {
                 test: /\.js$/,
                 use: {loader:'babel-loader',options:{
-                        cwd:__fix_babel,
+                        cwd:debug?'':__fix_babel,
                         presets:[
                             "@babel/preset-env",
                             "@babel/preset-react"
