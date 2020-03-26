@@ -32,8 +32,9 @@ win:
   icon: "static/app.ico"
   target:
     - "dir"
-##    - "nsis"
-##    - "zip"
+#    - "zip"
+#    - "nsis"
+
 linux:
   icon: "static/app.ico"
 nsis:

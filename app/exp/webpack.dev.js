@@ -29,7 +29,7 @@ module.exports = merge(cfg,{
     entry: {
         //主文件
         index : [
-            // 'webpack/hot/dev-server',
+            'webpack/hot/dev-server',
             // 'webpack-hot-middleware/client?reload=true',
             path.join(__fix_dirname, 'src/app.js')
             // 'src/app.js'
@@ -78,7 +78,9 @@ module.exports = merge(cfg,{
                             "@babel/plugin-proposal-object-rest-spread",
                             "@babel/plugin-transform-runtime",
                             "@babel/plugin-proposal-class-properties",
-                            "@babel/plugin-syntax-dynamic-import"
+                            "@babel/plugin-syntax-dynamic-import",
+                            "@babel/plugin-proposal-optional-chaining",
+                            "@babel/plugin-proposal-nullish-coalescing-operator"
                         ]
                     }},
                 exclude: /node_modules/
@@ -96,7 +98,9 @@ module.exports = merge(cfg,{
                             "@babel/plugin-proposal-object-rest-spread",
                             "@babel/plugin-transform-runtime",
                             "@babel/plugin-proposal-class-properties",
-                            "@babel/plugin-syntax-dynamic-import"
+                            "@babel/plugin-syntax-dynamic-import",
+                            "@babel/plugin-proposal-optional-chaining",
+                            "@babel/plugin-proposal-nullish-coalescing-operator"
                         ]
                     }},
                 exclude: /node_modules/

@@ -1,11 +1,12 @@
 import Fetch from "./Fetch";
 
-export function GetData(table,page,number,conditions,cb) {
+export function GetData(table,page,number,conditions,orders,cb) {
     Fetch('/service/def/get_data',{
         table_name:table,
         page:page,
         number:number,
-        conditions:conditions
+        conditions:conditions,
+        orders:orders??[]
     },(res)=>{
         cb(res)
     },(e)=>{
@@ -24,7 +25,7 @@ export function ComboSearch(source,rowSource) {
         condition.value = search+'%';
         GetData(rowSource,1,50,[
             condition
-        ],(res)=>{
+        ],null,(res)=>{
             if (res.status) {
                 callback(res.data.list);
             } else {
@@ -32,4 +33,18 @@ export function ComboSearch(source,rowSource) {
             }
         });
     };
+}
+
+export function TableLoad(opt,callback) {
+    GetData(opt.source,opt?.page||1,opt?.number || 50,[],null,(res)=>{
+        if (res.status) {
+            callback({
+                data:res.data.list,
+                page:opt.page,
+                count:res.data.count
+            });
+        } else {
+            callback(null);
+        }
+    });
 }
