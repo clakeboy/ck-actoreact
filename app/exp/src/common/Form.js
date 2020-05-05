@@ -65,11 +65,11 @@ class Form extends React.PureComponent {
         };
     };
 
-    comboChangeHandler(field) {
+    comboChangeHandler(field,searchField) {
         return (val,row)=>{
             this.vals[field] = {text:val,value:row};
             if (typeof this.props.onChange === 'function') {
-                this.props.onChange(field,val,row,'combo');
+                this.props.onChange(field,val,row,'combo',searchField);
             }
             if (typeof this.events[field] === 'function') {
                 this.events[field](val,row);
@@ -156,7 +156,7 @@ class Form extends React.PureComponent {
 
                 item.props.ref = this.refComponent(field);
                 if (item.props.combo) {
-                    item.props.onChange = this.comboChangeHandler(field);
+                    item.props.onChange = this.comboChangeHandler(field,item.props.field.text_key);
                     this.newColumn[field] = {text:'',value:'',text_key:item.props.field.text_key};
                     return;
                 } else {
