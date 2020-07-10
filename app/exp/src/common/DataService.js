@@ -14,6 +14,18 @@ export function GetData(table,page,number,conditions,orders,cb) {
     })
 }
 
+export function ProcessData(table,type,data,cb) {
+    Fetch('/service/data/process',{
+        table:table,
+        type:type,
+        data:data,
+    },(res)=>{
+        cb(res)
+    },(e)=>{
+        cb(e)
+    })
+}
+
 export function ComboSearch(source,rowSource) {
     let condition = {
         field:source,
