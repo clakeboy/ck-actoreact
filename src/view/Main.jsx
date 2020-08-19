@@ -23,7 +23,7 @@ import ReactBootstrap4,{
     ButtonGroup
 } from '@clake/react-bootstrap4';
 import Storage from "../common/Storage";
-
+import {GetComponent} from "../common/Funcs";
 class Main extends React.Component {
     constructor(props) {
         super(props);
@@ -183,7 +183,45 @@ class Main extends React.Component {
     };
 
     convertMysqlDatabase = ()=>{
-
+        if (this.state.mainAccessFile.trim() === '') {
+            this.modal.alert({
+                header:false,
+                content:'Please choose convert access file'
+            });
+            return false;
+        }
+        this.modal.view({
+            title: 'Connect mysql',
+            width: '400px',
+            content: <LoaderComponent loadPath='/db/MysqlHost' import={GetComponent} callback={(res,cancel) => {
+                this.modal.close();
+                if (cancel) {
+                    return;
+                }
+                this.setState({
+                    currentTab:'log',
+                    output:[
+                        <span className='text-danger'>Start converting access database to mysql</span>,
+                        <span className='text-danger'>Host: {res.host}:{res.port}</span>,
+                        <span className='text-danger'>Database: {res.db_name}</span>
+                    ],
+                    running:true
+                },()=>{
+                    window.remote.convertDB2Mysql(
+                        this.state.mainAccessFile,
+                        res.host,res.port,res.user,res.passwd,res.db_name,
+                        (msg,done)=>{
+                            if (done) {
+                                this.pushLog(<span className='text-success'>{msg}</span>);
+                                this.done();
+                            } else {
+                                this.pushLog(msg);
+                            }
+                        }
+                    )
+                });
+            }}/>
+        })
     };
 
     done() {
@@ -313,11 +351,11 @@ class Main extends React.Component {
                                         }} size='sm'>Preview</Button>
                                         <Button size='sm' theme='danger' icon='trash-alt' outline onClick={this.clearPreviewDir}>Clear Preview</Button>
                                     </div>
-                                    <div>
+                                    <div className='mb-1'>
                                         <Button onClick={this.convertDemoDatabase} size='sm' theme='success'>Convert demo sqlite db</Button>
                                     </div>
                                     <div>
-                                        <Button onClick={this.convertMysqlDatabase} size='sm' theme='success'>Convert to mysql db</Button>
+                                        <Button onClick={this.convertMysqlDatabase} size='sm'>Convert to mysql db</Button>
                                     </div>
                                 </div>
                             </div>
