@@ -182,6 +182,10 @@ class Main extends React.Component {
         });
     };
 
+    convertMysqlDatabase = ()=>{
+
+    };
+
     done() {
         this.setState({running:false});
     }
@@ -310,7 +314,10 @@ class Main extends React.Component {
                                         <Button size='sm' theme='danger' icon='trash-alt' outline onClick={this.clearPreviewDir}>Clear Preview</Button>
                                     </div>
                                     <div>
-                                        <Button onClick={this.convertDemoDatabase} size='sm' theme='success'>Convert demo db</Button>
+                                        <Button onClick={this.convertDemoDatabase} size='sm' theme='success'>Convert demo sqlite db</Button>
+                                    </div>
+                                    <div>
+                                        <Button onClick={this.convertMysqlDatabase} size='sm' theme='success'>Convert to mysql db</Button>
                                     </div>
                                 </div>
                             </div>

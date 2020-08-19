@@ -135,6 +135,34 @@ window.remote = {
             dbConvert.kill();
         });
     },
+    convertDB2Mysql:(db_path,host,port,user,passwd,dbname,cb)=>{
+        let dbConvert = spawn(convert_db_cmd,[
+            '-t','mysql',
+            '-f',db_path,
+            '-h', host,
+            '-p', port,
+            '-u', user,
+            '-P', passwd,
+            '-d', dbname
+        ],{cwd:path.join(__dirname.replace('app.asar', 'app.asar.unpacked'),'accesscmd')});
+        dbConvert.stdout.on('data', (data) => {
+            cb(data.toString());
+        });
+        dbConvert.stderr.on('data', (data) => {
+            console.log(`stderr: ${data}`);
+        });
+        dbConvert.on('error', (data) => {
+            console.log(`error: ${data}`);
+            cb(data.toString(),true);
+        });
+        dbConvert.on('close',()=>{
+            cb('done',true);
+        });
+        dbConvert.on('exit',()=>{
+            console.log('convert database exit');
+            dbConvert.kill();
+        });
+    },
     convert: (exportDir,cb) => {
         let AccessExport = spawn(convertcmd,['-dir',tmpDir,'-output',exportDir],{cwd:path.join(__dirname.replace('app.asar', 'app.asar.unpacked'),'accesscmd')});
         AccessExport.stdout.on('data', (data) => {
