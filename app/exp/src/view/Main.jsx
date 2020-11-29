@@ -88,7 +88,7 @@ class Main extends React.Component {
                         <LoaderComponent loadPath='/test/CTableTest' parent={this} import={GetComponent}/>
                     </Window>
                     {windowList.map((item)=>{
-                        return (<Window name={item.name} marginTop={25} title={item.title} width={item.width} height={item.height} backColor={'#f3f3f4'}>
+                        return (<Window name={item.name} marginTop={25} title={item.title} width={item.width} height={item.height} backColor={'#f3f3f4'} isMaxBtn={item.is_max}>
                             <LoaderComponent loadPath={`/window/${item.uname}.jsx`} import={GetComponent}/>
                         </Window>)
                     })}
