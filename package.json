@@ -1,6 +1,6 @@
 {
   "name": "ck-actoreact",
-  "version": "1.4.9",
+  "version": "1.5.0",
   "description": "Access convert to react application",
   "main": "app/main.js",
   "scripts": {
@@ -43,7 +43,7 @@
     "@babel/preset-react": "^7.6.3",
     "@babel/register": "^7.6.2",
     "@babel/runtime": "^7.6.3",
-    "@clake/react-bootstrap4": "^1.5.7",
+    "@clake/react-bootstrap4": "^1.5.8",
     "@clake/react-bootstrap4-window": "^0.4.4",
     "babel-loader": "^8.0.6",
     "classnames": "^2.2.6",
