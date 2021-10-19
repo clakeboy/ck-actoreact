@@ -224,6 +224,48 @@ class Main extends React.Component {
         })
     };
 
+    convertMssqlDatabase = ()=>{
+        if (this.state.mainAccessFile.trim() === '') {
+            this.modal.alert({
+                header:false,
+                content:'Please choose convert access file'
+            });
+            return false;
+        }
+        this.modal.view({
+            title: 'Connect Mssql Sql Server',
+            width: '400px',
+            content: <LoaderComponent loadPath='/db/MssqlHost' import={GetComponent} callback={(res,cancel) => {
+                this.modal.close();
+                if (cancel) {
+                    return;
+                }
+                this.setState({
+                    currentTab:'log',
+                    output:[
+                        <span className='text-danger'>Start converting access database to mssql sql server</span>,
+                        <span className='text-danger'>Host: {res.host}:{res.port}</span>,
+                        <span className='text-danger'>Database: {res.db_name}</span>
+                    ],
+                    running:true
+                },()=>{
+                    window.remote.convertDB2Mssql(
+                        this.state.mainAccessFile,
+                        res.host,res.port,res.user,res.passwd,res.db_name,
+                        (msg,done)=>{
+                            if (done) {
+                                this.pushLog(<span className='text-success'>{msg}</span>);
+                                this.done();
+                            } else {
+                                this.pushLog(msg);
+                            }
+                        }
+                    )
+                });
+            }}/>
+        })
+    };
+
     done() {
         this.setState({running:false});
     }
@@ -354,8 +396,11 @@ class Main extends React.Component {
                                     <div className='mb-1'>
                                         <Button onClick={this.convertDemoDatabase} size='sm' theme='success'>Convert demo sqlite db</Button>
                                     </div>
+                                    <div className='mb-1'>
+                                        <Button onClick={this.convertMysqlDatabase} size='sm'>Convert to Mysql db</Button>
+                                    </div>
                                     <div>
-                                        <Button onClick={this.convertMysqlDatabase} size='sm'>Convert to mysql db</Button>
+                                        <Button onClick={this.convertMssqlDatabase} size='sm'>Convert to SqlServer db</Button>
                                     </div>
                                 </div>
                             </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactBootstrap4,{
+import ReactBootstrap4, {
     Container,
     Input,
     Button,
@@ -19,7 +19,7 @@ import ReactBootstrap4,{
     LoaderComponent,
     Menu,
     Modal,
-    ButtonGroup
+    ButtonGroup, RImage
 } from '@clake/react-bootstrap4';
 import Storage from "../../common/Storage";
 
@@ -63,8 +63,17 @@ class MysqlHost extends React.Component {
     render() {
         return (
             <div>
-                <Input size='sm' label='database host' onChange={this.changeHandler('host')} data={this.state.host}/>
-                <Input size='sm' label='database port' onChange={this.changeHandler('port')} data={this.state.port}/>
+                <div>
+                    <RImage src={require('../../img/mysql.jpg')}/>
+                </div>
+                <div className='row no-gutters'>
+                    <div className="col-8">
+                        <Input size='sm' label='database host' onChange={this.changeHandler('host')} data={this.state.host}/>
+                    </div>
+                    <div className="col">
+                        <Input size='sm' label='database port' onChange={this.changeHandler('port')} data={this.state.port}/>
+                    </div>
+                </div>
                 <Input size='sm' label='database name' onChange={this.changeHandler('db_name')} data={this.state.db_name}/>
                 <Input size='sm' label='user' onChange={this.changeHandler('user')} data={this.state.user}/>
                 <Input size='sm' label='password' onChange={this.changeHandler('passwd')} data={this.state.passwd}/>
