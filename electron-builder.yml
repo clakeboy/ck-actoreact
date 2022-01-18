@@ -1,7 +1,7 @@
 appId: "com.ck.actoreact"
 productName: "ck-actoreact"
 directories:
-  output: "C:/Users/Clake IDE/Downloads"
+  output: "C:/Users/86185/Downloads/ck-actoreact"
 files:
   - "app/**/*"
 asarUnpack:
