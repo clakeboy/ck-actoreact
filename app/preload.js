@@ -17,6 +17,7 @@ if (!fs.existsSync(tmpDir)) {
 
 const _setImmediate = setImmediate;
 const _clearImmediate = clearImmediate;
+let appPkg = require("../package.json");
 process.once('loaded', () => {
     global.setImmediate = _setImmediate;
     global.clearImmediate = _clearImmediate;
@@ -192,7 +193,7 @@ window.remote = {
         });
     },
     convert: (exportDir,cb) => {
-        let AccessExport = spawn(convertcmd,['-dir',tmpDir,'-output',exportDir],{cwd:path.join(__dirname.replace('app.asar', 'app.asar.unpacked'),'accesscmd')});
+        let AccessExport = spawn(convertcmd,['-dir',tmpDir,'-output',exportDir,'app_version',appPkg.version],{cwd:path.join(__dirname.replace('app.asar', 'app.asar.unpacked'),'accesscmd')});
         AccessExport.stdout.on('data', (data) => {
             cb(data.toString());
         });
