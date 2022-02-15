@@ -193,7 +193,7 @@ window.remote = {
         });
     },
     convert: (exportDir,cb) => {
-        let AccessExport = spawn(convertcmd,['-dir',tmpDir,'-output',exportDir,'app_version',appPkg.version],{cwd:path.join(__dirname.replace('app.asar', 'app.asar.unpacked'),'accesscmd')});
+        let AccessExport = spawn(convertcmd,['-dir',tmpDir,'-output',exportDir,'-app_version',appPkg.version],{cwd:path.join(__dirname.replace('app.asar', 'app.asar.unpacked'),'accesscmd')});
         AccessExport.stdout.on('data', (data) => {
             cb(data.toString());
         });
