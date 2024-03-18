@@ -113,7 +113,7 @@ window.remote = {
         AccessExport.on('exit',()=>{
             console.log('export exit');
             AccessExport.kill();
-            setTimeout(()=>{window.remote.convert(exportDir,cb);},1000);
+            setTimeout(()=>{window.remote.convert(exportDir,cb,preview);},1000);
         });
     },
     convertDB2SQLite:(db_path,cb)=>{
@@ -192,8 +192,12 @@ window.remote = {
             dbConvert.kill();
         });
     },
-    convert: (exportDir,cb) => {
-        let AccessExport = spawn(convertcmd,['-dir',tmpDir,'-output',exportDir,'-app_version',appPkg.version],{cwd:path.join(__dirname.replace('app.asar', 'app.asar.unpacked'),'accesscmd')});
+    convert: (exportDir,cb,debug=false) => {
+        let args = ['-dir',tmpDir,'-output',exportDir,'-app_version',appPkg.version]
+        if (debug) {
+            args.push('-debug')
+        }
+        let AccessExport = spawn(convertcmd,args,{cwd:path.join(__dirname.replace('app.asar', 'app.asar.unpacked'),'accesscmd')});
         AccessExport.stdout.on('data', (data) => {
             cb(data.toString());
         });

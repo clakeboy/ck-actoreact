@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactBootstrap4,{
+import ReactBootstrap4, {
     Container,
     Input,
     Button,
@@ -20,7 +20,7 @@ import ReactBootstrap4,{
     LoaderComponent,
     Menu,
     Modal,
-    ButtonGroup
+    ButtonGroup, Theme
 } from '@clake/react-bootstrap4';
 import Storage from "../common/Storage";
 import {GetComponent} from "../common/Funcs";
@@ -342,7 +342,6 @@ class Main extends React.Component {
                                                                     windowList:data,
                                                                     currentTab:'list'
                                                                 });
-
                                                                 this.modal.close();
                                                             } else {
                                                                 this.modal.alert(data);
@@ -388,7 +387,7 @@ class Main extends React.Component {
                             <div className='col'>
                                 <div className='h-100 p-2 bg-white rounded border'>
                                     <div className='mb-1'>
-                                        <Button className='mr-1' onClick={()=>{
+                                        <Button className='me-1' onClick={()=>{
                                             window.remote.openPreview();
                                         }} size='sm'>Preview</Button>
                                         <Button size='sm' theme='danger' icon='trash-alt' outline onClick={this.clearPreviewDir}>Clear Preview</Button>
@@ -417,10 +416,11 @@ class Main extends React.Component {
                                         <Button disabled={this.state.running} size='sm' onClick={this.exportSelection}>Convert selected</Button>
                                         <Button disabled={this.state.running} size='sm' theme='success' outline onClick={this.exportSelectionPreview}>Preview selected</Button>
                                         </ButtonGroup>
-                                        <Button disabled={this.state.running} className='float-right' size='sm' outline onClick={this.exportAll}>Convert all</Button>
+                                        <Button disabled={this.state.running} className='float-end' size='sm' outline onClick={this.exportAll}>Convert all</Button>
                                     </div>
-                                    <Table ref={c=>this.selectTable=c} hover={true} select={true} sm fontSm headerTheme='light' height='270px' emptyText='not window data' data={this.state.windowList}>
+                                    <Table ref={c=>this.selectTable=c} hover={true} select={true} sm fontSm headerTheme={Theme.primary} height='270px' emptyText='not window data' data={this.state.windowList}>
                                         <Table.Header text='Window Name' field='window_name'/>
+                                        <Table.Header text='Title' field='window_title'/>
                                     </Table>
                                 </div>
                             </TabsContent>
