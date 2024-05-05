@@ -1,6 +1,6 @@
 {
   "name": "ck-actoreact",
-  "version": "1.9.7",
+  "version": "1.9.8",
   "description": "Access convert to react application",
   "main": "app/main.js",
   "scripts": {
@@ -44,7 +44,7 @@
     "@babel/register": "^7.6.2",
     "@babel/runtime": "^7.6.3",
     "@clake/react-bootstrap4": "^2.0.34",
-    "@clake/react-bootstrap4-window": "^0.7.6",
+    "@clake/react-bootstrap4-window": "^0.7.7",
     "@popperjs/core": "^2.11.8",
     "babel-loader": "^8.0.6",
     "classnames": "^2.2.6",
